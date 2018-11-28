@@ -45,9 +45,7 @@ namespace EthereumStart.Services
         private string _password;
         private string _storageKey;
         private string _storageAccount;
-
-       
-
+        
         public string AccountAddress
         {
             get
@@ -108,6 +106,12 @@ namespace EthereumStart.Services
         {
             var balance = await _web3.Eth.GetBalance.SendRequestAsync(address);
             return Nethereum.Util.UnitConversion.Convert.FromWei(balance.Value, 18);
+        }
+
+        public async Task<string> CreateAccount()
+        {
+            var accountAddress = await _web3.Personal.NewAccount.SendRequestAsync("12345");
+            return accountAddress;
         }
 
         public async Task<bool> TransferEthers(string addressFrom, string addressTo, int ethers)

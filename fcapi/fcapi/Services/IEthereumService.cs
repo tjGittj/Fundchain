@@ -18,5 +18,7 @@ namespace EthereumStart.Services
         Task<Contract> GetContract(string name);
 
         Task<Nethereum.RPC.Eth.DTOs.TransactionReceipt> MineAndGetReceiptAsync(string transactionHash);
+
+        Task<string> CreateAccount();
     }
 }

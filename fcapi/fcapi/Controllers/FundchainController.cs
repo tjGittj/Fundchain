@@ -1,4 +1,5 @@
 ﻿using EthereumStart.Services;
+using Nethereum.Hex.HexTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,11 +55,12 @@ namespace fcapi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("addFM/address/{address}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addFM(string address = "", string name = "", string emailId = "", string phNumber = "", string password = "")
+        [Route("addFM/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        public async Task<bool> addFM(string name = "", string emailId = "", string phNumber = "", string password = "")
         {
             try
             {
+               var address = await service.CreateAccount();
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("addFM");                
@@ -80,11 +82,12 @@ namespace fcapi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("addInvestor/address/{address}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addInvestor(string address = "", string name = "", string emailId = "", string phNumber = "", string password = "")
+        [Route("addInvestor/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        public async Task<bool> addInvestor(string name = "", string emailId = "", string phNumber = "", string password = "")
         {
             try
             {
+                var address = await service.CreateAccount();
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("addInvestor");
@@ -106,14 +109,15 @@ namespace fcapi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("addBeneficiary/address/{address}/fm/{fm}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addBeneficiary(string address = "", string fm = "", string name = "", string emailId = "", string phNumber = "", string password = "")
+        [Route("addBeneficiary/fm/{fm}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        public async Task<bool> addBeneficiary(string fm = "", string name = "", string emailId = "", string phNumber = "", string password = "")
         {
             try
             {
+                var address = await service.CreateAccount();
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addInvestor");
+                var method = contract.GetFunction("addBeneficiary");
 
                 var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, fm, name, emailId, phNumber, password);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
@@ -139,7 +143,7 @@ namespace fcapi.Controllers
             {
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addInvestor");
+                var method = contract.GetFunction("addCampaignFG");
 
                 var transactionHash = await method.SendTransactionAsync(service.AccountAddress, name, fm, startDate, expiryDate);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
@@ -167,7 +171,7 @@ namespace fcapi.Controllers
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("CreatePledge");
 
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, fm, cfgname);
+                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, null, new HexBigInteger(100), fm, cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
             }
@@ -191,7 +195,7 @@ namespace fcapi.Controllers
             {
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("CreatePledge");
+                var method = contract.GetFunction("addBeneficiaryToCFG");
 
                 var transactionHash = await method.SendTransactionAsync(service.AccountAddress, beneAddr, cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
@@ -217,7 +221,7 @@ namespace fcapi.Controllers
             {
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("CreatePledge");
+                var method = contract.GetFunction("addContractToCFG");
 
                 var transactionHash = await method.SendTransactionAsync(service.AccountAddress, contractAddr, cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
@@ -243,8 +247,9 @@ namespace fcapi.Controllers
             {
                 var contract = await service.GetContract("");
                 if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("CreatePledge");
+                var method = contract.GetFunction("disburseFund");
 
+                var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount);                
                 var transactionHash = await method.SendTransactionAsync(service.AccountAddress, cfgname, amount);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
