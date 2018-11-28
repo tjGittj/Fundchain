@@ -27,26 +27,122 @@ namespace fcapi.Controllers
         }
 
         [HttpGet]
-        [Route("getUser/{user}/type/{type}")]
-        public async Task<UserInfo> GetUser(string user = "", string type = "0")
+        [Route("getInvestorBalance")]
+        public async Task<decimal> GetInvestorBalance()
         {
-            if (string.IsNullOrEmpty(user))
-            {
-                user = service.AccountAddress;
-            }
-            var contract = await service.GetContract("");
-            if (contract == null) throw new System.Exception("Contract not present in storage");
-            var method = contract.GetFunction("getUser");
-            try
-            {
-                var result = method.CallDeserializingToObjectAsync<UserInfo>(user, byte.Parse(type)).GetAwaiter().GetResult();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return await service.GetBalance(service.Investor);
         }
+
+
+        [HttpGet]
+        [Route("getFundManagerBalance")]
+        public async Task<decimal> GetFundManagerBalance()
+        {
+            return await service.GetBalance(service.Fundmanager);
+        }
+
+        //[HttpGet]
+        //[Route("getUser/{user}/type/{type}")]
+        //public async Task<UserInfo> GetUser(string user = "", string type = "0")
+        //{
+        //    if (string.IsNullOrEmpty(user))
+        //    {
+        //        user = service.Investor;
+        //    }
+        //    var contract = await service.GetContract("");
+        //    if (contract == null) throw new System.Exception("Contract not present in storage");
+        //    var method = contract.GetFunction("getUser");
+        //    try
+        //    {
+        //        var result = method.CallDeserializingToObjectAsync<UserInfo>(user, byte.Parse(type)).GetAwaiter().GetResult();
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        /// <summary>
+        /// use this method for setConcurrency
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        //[HttpGet]
+        //[Route("addFM/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        //public async Task<bool> addFM(string name = "", string emailId = "", string phNumber = "", string password = "")
+        //{
+        //    try
+        //    {
+        //       var address = await service.CreateAccount();
+        //        var contract = await service.GetContract("");
+        //        if (contract == null) throw new System.Exception("Contract not present in storage");
+        //        var method = contract.GetFunction("addFM");                
+
+        //        var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, name, emailId, phNumber, password);
+        //        var receipt = await service.MineAndGetReceiptAsync(transactionHash);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        /// <summary>
+        /// use this method for setConcurrency
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        //[HttpGet]
+        //[Route("addInvestor/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        //public async Task<bool> addInvestor(string name = "", string emailId = "", string phNumber = "", string password = "")
+        //{
+        //    try
+        //    {
+        //        var address = await service.CreateAccount();
+        //        var contract = await service.GetContract("");
+        //        if (contract == null) throw new System.Exception("Contract not present in storage");
+        //        var method = contract.GetFunction("addInvestor");
+
+        //        var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, name, emailId, phNumber, password);
+        //        var receipt = await service.MineAndGetReceiptAsync(transactionHash);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        /// <summary>
+        /// use this method for setConcurrency
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        //[HttpGet]
+        //[Route("addBeneficiary/fm/{fm}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
+        //public async Task<bool> addBeneficiary(string fm = "", string name = "", string emailId = "", string phNumber = "", string password = "")
+        //{
+        //    try
+        //    {
+        //        var address = await service.CreateAccount();
+        //        var contract = await service.GetContract("");
+        //        if (contract == null) throw new System.Exception("Contract not present in storage");
+        //        var method = contract.GetFunction("addBeneficiary");
+
+        //        var transactionHash = await method.SendTransactionAsync(service.Fundmanager, address, fm, name, emailId, phNumber, password);
+        //        var receipt = await service.MineAndGetReceiptAsync(transactionHash);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// use this method for setConcurrency
@@ -55,89 +151,8 @@ namespace fcapi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("addFM/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addFM(string name = "", string emailId = "", string phNumber = "", string password = "")
-        {
-            try
-            {
-               var address = await service.CreateAccount();
-                var contract = await service.GetContract("");
-                if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addFM");                
-
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, name, emailId, phNumber, password);
-                var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// use this method for setConcurrency
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("addInvestor/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addInvestor(string name = "", string emailId = "", string phNumber = "", string password = "")
-        {
-            try
-            {
-                var address = await service.CreateAccount();
-                var contract = await service.GetContract("");
-                if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addInvestor");
-
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, name, emailId, phNumber, password);
-                var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// use this method for setConcurrency
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("addBeneficiary/fm/{fm}/name/{name}/emailId/{emailId}/phNumber/{phNumber}/password/{password}")]
-        public async Task<bool> addBeneficiary(string fm = "", string name = "", string emailId = "", string phNumber = "", string password = "")
-        {
-            try
-            {
-                var address = await service.CreateAccount();
-                var contract = await service.GetContract("");
-                if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addBeneficiary");
-
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, address, fm, name, emailId, phNumber, password);
-                var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// use this method for setConcurrency
-        /// </summary>
-        /// <param name="count"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("addCampaignFG/name/{name}/fm/{fm}/startDate/{startDate}/expiryDate/{expiryDate}")]
-        public async Task<bool> addCampaignFG(string name = "", string fm = "", string startDate = "", string expiryDate = "")
+        [Route("addCampaignFG/name/{name}")]
+        public async Task<bool> addCampaignFG(string name = "")
         {
             try
             {
@@ -145,7 +160,7 @@ namespace fcapi.Controllers
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("addCampaignFG");
 
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, name, fm, startDate, expiryDate);
+                var transactionHash = await method.SendTransactionAsync(service.Fundmanager, name);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
             }
@@ -162,8 +177,8 @@ namespace fcapi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("createPledge/fm/{fm}/cfgname/{cfgname}")]
-        public async Task<bool> createPledge(string fm = "", string cfgname = "")
+        [Route("createPledge/cfgname/{cfgname}/amount/{amount}")]
+        public async Task<bool> createPledge(string cfgname = "", string amount = "")
         {
             try
             {
@@ -171,7 +186,8 @@ namespace fcapi.Controllers
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("CreatePledge");
 
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, null, new HexBigInteger(100), fm, cfgname);
+                var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount, Nethereum.Util.UnitConversion.EthUnit.Ether);
+                var transactionHash = await method.SendTransactionAsync(service.Investor, null, new Nethereum.Hex.HexTypes.HexBigInteger(weiAmount), cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
             }
@@ -197,7 +213,7 @@ namespace fcapi.Controllers
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("addBeneficiaryToCFG");
 
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, beneAddr, cfgname);
+                var transactionHash = await method.SendTransactionAsync(service.Fundmanager, beneAddr, cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
             }
@@ -213,25 +229,25 @@ namespace fcapi.Controllers
         /// <param name="count"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("addContractToCFG/contractAddr/{contractAddr}/cfgname/{cfgname}")]
-        public async Task<bool> addContractToCFG(string contractAddr = "", string cfgname = "")
-        {
-            try
-            {
-                var contract = await service.GetContract("");
-                if (contract == null) throw new System.Exception("Contract not present in storage");
-                var method = contract.GetFunction("addContractToCFG");
+        //[HttpGet]
+        //[Route("addContractToCFG/contractAddr/{contractAddr}/cfgname/{cfgname}")]
+        //public async Task<bool> addContractToCFG(string contractAddr = "", string cfgname = "")
+        //{
+        //    try
+        //    {
+        //        var contract = await service.GetContract("");
+        //        if (contract == null) throw new System.Exception("Contract not present in storage");
+        //        var method = contract.GetFunction("addContractToCFG");
 
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, contractAddr, cfgname);
-                var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        //        var transactionHash = await method.SendTransactionAsync(service.AccountAddress, contractAddr, cfgname);
+        //        var receipt = await service.MineAndGetReceiptAsync(transactionHash);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// use this method for setConcurrency
@@ -249,8 +265,8 @@ namespace fcapi.Controllers
                 if (contract == null) throw new System.Exception("Contract not present in storage");
                 var method = contract.GetFunction("disburseFund");
 
-                var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount);                
-                var transactionHash = await method.SendTransactionAsync(service.AccountAddress, cfgname, amount);
+                var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount, Nethereum.Util.UnitConversion.EthUnit.Ether);
+                var transactionHash = await method.SendTransactionAsync(service.Fundmanager, null, new Nethereum.Hex.HexTypes.HexBigInteger(weiAmount), cfgname);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
                 return true;
             }

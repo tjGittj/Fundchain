@@ -6,7 +6,10 @@ namespace EthereumStart.Services
 {
     public interface IEthereumService
     {
-        string AccountAddress { get; set; }
+        string Investor { get; set; }
+
+        string Fundmanager { get; set; }
+
         //Task<bool> SaveContractToTableStorage(EthereumContractInfo contract);
         //Task<EthereumContractInfo> GetContractFromTableStorage(string name);
         Task<decimal> GetBalance(string address);
