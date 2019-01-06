@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<title>NextGen</title>
+	  
+	<!-- Common -->
+   	<link type="text/css" rel="stylesheet" href="css/common.css">
+    <!-- Bootstrap CSS -->
+    <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    
+    <!-- Font icons -->
+    <link type="text/css" rel="stylesheet" href="simple-line-icons/css/simple-line-icons.css">  
+    <link type="text/css" rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> 
+    
+    <!-- Basic -->
+    <link type="text/css" rel="stylesheet" href="css/basic.css">
+    <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script src="scripts/smartvalidation.js"></script>
+	<script src="scripts/app.js"></script>
+  </head>
+  <!-- add side_menu_hide and aside_close class to hide side bars -->
+  <body class="p-0 login_bg">
+  	
+	<!-- Login -->
+  	<section class="login_wrp">
+		<div class="login_box_wrp">
+			<img src="images/logo_medium.png" alt="finastra" />
+			
+			<div class="login_cnt">
+				<h1>Login</h1>
+				<div class="form_main">
+					<div class="form-group">
+						<label class="label" for="user_name">User name</label>
+						<label class="input">
+							<i class="icon-prepend form-icon-user"></i>
+							<input type="text" name="user_name" id="user_name">
+						</label>
+					</div>
+					<div class="form-group">
+						<label class="label" for="password">Password</label>
+						<label class="input">
+							<i class="icon-prepend form-icon-lock"></i>
+							<input type="text" name="password" id="password">
+						</label>
+					</div>
+					<div class="float-right">
+						<button type="button" onclick="App.login()" class="button">
+							Login
+						</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+ 	</section>
+  		  
+  </body>
+</html>

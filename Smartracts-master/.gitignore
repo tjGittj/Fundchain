@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Src/API/EthereumStart/bin
+/Src/API/EthereumStart/obj
+/Src/API/EthereumStart/Properties
+/Src/.vs/EthereumStart/v15/.suo
+/Src/.vs
+/Src/UI/.vs
+/.vs
+/Src/UI/scripts/Smart.js.txt

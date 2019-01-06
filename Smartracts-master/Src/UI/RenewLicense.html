@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>NextGen</title>
+
+    <!-- Common -->
+    <link type="text/css" rel="stylesheet" href="css/common.css">
+    <!-- Bootstrap CSS -->
+    <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+
+    <!-- Font icons -->
+    <link type="text/css" rel="stylesheet" href="simple-line-icons/css/simple-line-icons.css">
+    <link type="text/css" rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+    <!-- Basic -->
+    <link type="text/css" rel="stylesheet" href="css/basic.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="scripts/smartvalidation.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/Smart.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            GetAccountBalance('0x4DccD0F0f1d4C11b93a1D027894892652122fEcE');
+            GetMaxConcurrencies();
+        });
+    </script>
+
+</head>
+<!-- add side_menu_hide and aside_close class to hide side bars -->
+<body class="aside_close">
+    <!-- Header -->
+    <header class="header_wrp">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-sm-4 col-xs-12">
+                    <div class="logo">
+                        <a href="index.html" class="logo_txt"><i class="icon-globe"></i>Sample Bank</a>
+                        <a class="float-right nav_link" href="javascript:void(0);"><i class="icon-menu"></i></a>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-9 col-sm-8 col-xs-12 ml-xl-auto">
+                    <ul class="top_nav">
+                        <li>
+                            <a href="javascript:void(0);"><i class="icon-basket"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="icon-logout"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Side Bar -->
+    <section class="sidebar_wrp">
+        <nav class="sidebar_nav">
+            <ul class="nav">
+                <li>
+                    <a class="active" href="javascript:void(0);"><i class="icon-home"></i> Dashboard <i class="icon-arrow-right arrow"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <!-- Main -->
+    <main class="main_wrp">
+
+        <!-- Banner -->
+        <div class="banner_wrp">
+            <div class="banner_overlay">
+
+            </div>
+        </div>
+
+        <!-- Prospect List -->
+        <div class="sub_title_header">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12 p-0">
+                    <nav class="profile_menu">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" class="active">Renew License</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="table_wrp">
+            <table title="Prospect Table" class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center action">
+
+                        </th>
+                        <th>License <a href="javascript:void(0);"><i class="fa fa-long-arrow-down"></i></a></th>
+                        <th>Number</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center action"></td>
+                        <td>Fether balance</td>
+                        <td>
+                            <!--<input type="text" name="txtlic1" id="ExistingLicense" onblur="CalculateLicense()">-->
+                            <label name="lblFether" id="ExistingFethers">30</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="text-center action"></td>
+                        <td>Existing Concurrency Licenses</td>
+                        <td>
+                            <!--<input type="text" name="txtlic1" id="ExistingLicense" onblur="CalculateLicense()">-->
+                            <label name="lblLicenses" id="ExistingLicense">5</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="text-center action"></td>
+                        <td>Additional Required</td>
+                        <td>
+                            <input type="text" name="txtlic2" id="NewLicense" onblur="CalculateFether()">
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="text-center action"></td>
+                        <td>Fethers to be paid</td>
+                        <td>
+                            <label name="AmountToPay" id="lblamounttopay"></label>
+                        </td>
+
+                    </tr>
+                    <!--<tr>
+        <td class="text-center action"></td>
+        <td>Total</td>
+        <td>
+            <input type="text" name="txtlic3" id="TotalLicense">
+        </td>
+
+    </tr>-->
+                    <tr>
+                        <td colspan="8" class="accordion_row">
+                            <div class="account_transfer_wrp">
+
+                                <form class="form_main">
+                                    <div class="row">
+                                        <div class="form_main acc_detail_title">
+                                            <!-- <label class="label float-left">Fethers to be paid</label>
+     <label class="input float-left">
+
+         <label name="AmountToPay" id="lblamounttopay"></label>
+     </label>-->
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 col-sm-12 col-sm-12 text-center">
+                                            <div class="dashboard_link">
+                                                <input type="button" class="link_icon icon-basket-loaded" value="Pay" onclick="TransferEthers('0x4DccD0F0f1d4C11b93a1D027894892652122fEcE', '0x5A5AA2714b31CFE3FD626B479a466Cf63EB90248'); IncrementConCurrency('0x4DccD0F0f1d4C11b93a1D027894892652122fEcE', 'Abdul'); window.location.href = 'login.html';" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                        </td>
+                        <td>
+                            <div class="account_transfer_wrp1">
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+<script src="./scripts/Smart.js"></script>
+</html>
