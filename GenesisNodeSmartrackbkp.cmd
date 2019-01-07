@@ -1,0 +1,2 @@
+geth --datadir ./myDataDir init ./myGenesis.json
+geth --datadir ./myDataDir --port "30303" --rpcapi "db,eth,net,web3,personal,miner,debugger" --rpc --rpcport "8000" --rpccorsdomain "*" --networkid 153676 console 2>> ./myEth.log 
