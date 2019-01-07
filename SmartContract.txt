@@ -1,0 +1,102 @@
+pragma solidity ^0.4.21;
+
+contract FundChain{
+               
+               struct CampaignFG{
+                   string name;
+                   address fm;
+                   address[] beneficiaries;
+                   uint balance;
+               }
+               
+               struct Beneficiary{
+                   string name;
+                   uint balance;
+               }
+               
+               struct FM{
+                   string name;
+                   uint balance;
+               }
+               
+               struct Investor{
+                   string name;
+                   address[] transactions;// transactions happened
+               }
+               
+               mapping(address => Investor) private RegisteredInvestors;
+    mapping(address => FM) private RegisteredFMs;
+    mapping(address => Beneficiary) private RegisteredBeneficiaries;
+    mapping(string => CampaignFG) private RegisteredCampaignFGs;
+    
+    function addBeneficiary(address _acctId, string _name)
+    public
+    returns(uint){
+        RegisteredBeneficiaries[_acctId].name = _name;
+        return 0;
+    }
+    
+               //adds a beneficiary to a campaign/ focus group.
+               //returns true if added successfully.
+    function addBeneficiaryToCFG(address _beneAddr, string _cFgName)
+    public
+    returns(bool)
+    {
+        RegisteredCampaignFGs[_cFgName].beneficiaries.push(_beneAddr);
+        return true;
+    }
+    
+    function addCampaignFG(string _name)
+    public
+    returns(uint){
+        RegisteredCampaignFGs[_name].name = _name;
+        RegisteredCampaignFGs[_name].fm = msg.sender;
+        return 0;
+    }
+    
+    function addFM(address _acctId, string _name)
+    public
+    returns(uint){
+        RegisteredFMs[_acctId].name = _name;
+        return 0;
+    }
+    
+    function addInvestor(address _acctId, string  _name)
+    public
+    returns(uint){
+        RegisteredInvestors[_acctId].name = _name;
+        return 0;
+    }
+    
+    function CreatePledge(string _cFgName)
+    public
+    payable
+    returns (uint)
+    {
+        RegisteredCampaignFGs[_cFgName].balance += msg.value;
+        RegisteredCampaignFGs[_cFgName].fm.transfer(msg.value);
+        return RegisteredCampaignFGs[_cFgName].balance;
+    }
+    
+    function disburseFund(string _cfgName)
+    public
+    payable
+    returns (uint)
+    {
+        uint bLength = RegisteredCampaignFGs[_cfgName].beneficiaries.length;
+         if(RegisteredCampaignFGs[_cfgName].balance >= msg.value)
+         {
+             uint amt =  msg.value / bLength;
+             
+             for(uint i = 0; i < bLength; i++)
+             {
+                 address ben = RegisteredCampaignFGs[_cfgName].beneficiaries[i];
+                 ben.transfer(amt);
+             }
+             
+             RegisteredCampaignFGs[_cfgName].balance -=  msg.value;
+         }
+         
+         return 0;
+    }
+}
