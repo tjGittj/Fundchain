@@ -41,6 +41,7 @@ namespace fcapi.Controllers
             return await service.GetBalance(service.Fundmanager);
         }
 
+        #region commented section
         //[HttpGet]
         //[Route("getUser/{user}/type/{type}")]
         //public async Task<UserInfo> GetUser(string user = "", string type = "0")
@@ -143,6 +144,7 @@ namespace fcapi.Controllers
         //        return false;
         //    }
         //}
+        #endregion commented section
 
         /// <summary>
         /// use this method for setConcurrency

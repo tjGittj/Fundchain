@@ -6,6 +6,7 @@ using Nethereum.Geth;
 using System.Numerics;
 using System.Threading;
 using Nethereum.ABI.FunctionEncoding.Attributes;
+using System.Configuration;
 
 namespace EthereumStart.Services
 {
@@ -60,6 +61,47 @@ namespace EthereumStart.Services
             }
         }
 
+        public string MiningAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["miningIpAddress"];
+            }
+        }
+
+        public string AbiContarctAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["abiContractAddress"];
+            }
+        }
+
+        public string AdminAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["adminAddress"];
+            }
+        }
+
+        public string FmAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["fmAddress"];
+            }
+        }
+
+        public string AdminPwd
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["adminPwd"];
+            }
+        }
+
+
         public string Fundmanager
         {
             get
@@ -75,11 +117,11 @@ namespace EthereumStart.Services
 
         public BasicEthereumService()
         {
-            //_web3 = new Web3("http://127.0.0.1:8000");
-            _web3 = new Web3("http://40.121.92.98:8000");
-            _accountAddress = "0x5c5b52e9Df83301CB82aEf6e3D7E89F22c719E2B";
-            _fundmanager = "0x0709f2B18F37987827E6276Bde95b3b2Ac89c7fb";
-            _password = "12345";
+            _web3 = new Web3(MiningAddress);
+            //_web3 = new Web3("http://40.121.92.98:8000");
+            _accountAddress = AdminAddress;
+            _fundmanager = FmAddress;
+            _password = AdminPwd;
             //_storageAccount = config.Value.StorageAccount;
             //_storageKey = config.Value.StorageKey;            
             _web3.TransactionManager.DefaultGas = BigInteger.Parse("290000");
@@ -195,14 +237,14 @@ namespace EthereumStart.Services
         public async Task<Contract> GetContract(string name)
         {
             //string abi = @"[ { 'constant': false, 'inputs': [ { 'name': '_cfgName', 'type': 'string' }, { 'name': '_amount', 'type': 'uint256' } ], 'name': 'disburseFund', 'outputs': [ { 'name': '', 'type': 'bool' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function' }, { 'constant': true, 'inputs': [ { 'name': '_cfgName', 'type': 'string' } ], 'name': 'getCFGBeneficiariesCount', 'outputs': [ { 'name': '', 'type': 'uint256', 'value': '0' } ], 'payable': false, 'stateMutability': 'view', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_contractAddr', 'type': 'address' }, { 'name': '_cFgName', 'type': 'string' } ], 'name': 'addContractToCFG', 'outputs': [ { 'name': '', 'type': 'bool' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' }, { 'name': '_emailId', 'type': 'string' }, { 'name': '_phNumber', 'type': 'string' }, { 'name': '_password', 'type': 'string' } ], 'name': 'addFM', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_fmAddr', 'type': 'address' }, { 'name': '_cFgName', 'type': 'string' } ], 'name': 'CreatePledge', 'outputs': [ { 'name': '', 'type': 'address' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_fmId', 'type': 'address' }, { 'name': '_name', 'type': 'string' }, { 'name': '_emailId', 'type': 'string' }, { 'name': '_phNumber', 'type': 'string' }, { 'name': '_password', 'type': 'string' } ], 'name': 'addBeneficiary', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': true, 'inputs': [ { 'name': '_cfgName', 'type': 'string' } ], 'name': 'getCFGBeneficiaries', 'outputs': [ { 'name': '', 'type': 'address[]', 'value': [] } ], 'payable': false, 'stateMutability': 'view', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_name', 'type': 'string' }, { 'name': '_fmId', 'type': 'address' }, { 'name': '_startDate', 'type': 'uint256' }, { 'name': '_expiryDate', 'type': 'uint256' } ], 'name': 'addCampaignFG', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' }, { 'name': '_emailId', 'type': 'string' }, { 'name': '_phNumber', 'type': 'string' }, { 'name': '_password', 'type': 'string' } ], 'name': 'addInvestor', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_beneAddr', 'type': 'address' }, { 'name': '_cFgName', 'type': 'string' } ], 'name': 'addBeneficiaryToCFG', 'outputs': [ { 'name': '', 'type': 'bool' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': true, 'inputs': [ { 'name': '_cfgName', 'type': 'string' } ], 'name': 'getCFGContracts', 'outputs': [ { 'name': '', 'type': 'address[]', 'value': [] } ], 'payable': false, 'stateMutability': 'view', 'type': 'function' }, { 'constant': true, 'inputs': [ { 'name': '_id', 'type': 'address' }, { 'name': '_pType', 'type': 'uint8' } ], 'name': 'getUser', 'outputs': [ { 'name': '', 'type': 'string' }, { 'name': '', 'type': 'string' }, { 'name': '', 'type': 'string' }, { 'name': '', 'type': 'string' }, { 'name': '', 'type': 'address' }, { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'view', 'type': 'function' }, { 'inputs': [], 'payable': true, 'stateMutability': 'payable', 'type': 'constructor' } ] ";
-            string abi = @"[ { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addInvestor', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function', 'signature': '0x3130ca2d' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addBeneficiary', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function', 'signature': '0x32b578e5' }, { 'constant': false, 'inputs': [ { 'name': '_cFgName', 'type': 'string' } ], 'name': 'CreatePledge', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function', 'signature': '0x37c379c7' }, { 'constant': false, 'inputs': [ { 'name': '_name', 'type': 'string' } ], 'name': 'addCampaignFG', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function', 'signature': '0x9090b34e' }, { 'constant': false, 'inputs': [ { 'name': '_beneAddr', 'type': 'address' }, { 'name': '_cFgName', 'type': 'string' } ], 'name': 'addBeneficiaryToCFG', 'outputs': [ { 'name': '', 'type': 'bool' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function', 'signature': '0xbf1dfc5f' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addFM', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function', 'signature': '0xedf37e86' }, { 'constant': false, 'inputs': [ { 'name': '_cfgName', 'type': 'string' } ], 'name': 'disburseFund', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function', 'signature': '0xf80d3662' } ]";
+            string abi = @"[ { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addInvestor', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addBeneficiary', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_cFgName', 'type': 'string' } ], 'name': 'CreatePledge', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_name', 'type': 'string' } ], 'name': 'addCampaignFG', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_beneAddr', 'type': 'address' }, { 'name': '_cFgName', 'type': 'string' } ], 'name': 'addBeneficiaryToCFG', 'outputs': [ { 'name': '', 'type': 'bool' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_acctId', 'type': 'address' }, { 'name': '_name', 'type': 'string' } ], 'name': 'addFM', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': false, 'stateMutability': 'nonpayable', 'type': 'function' }, { 'constant': false, 'inputs': [ { 'name': '_cfgName', 'type': 'string' } ], 'name': 'disburseFund', 'outputs': [ { 'name': '', 'type': 'uint256' } ], 'payable': true, 'stateMutability': 'payable', 'type': 'function' } ]";
             var resultUnlocking = await _web3.Personal.UnlockAccount.SendRequestAsync(_accountAddress, _password, 3600);
             var resultUnlocking1 = await _web3.Personal.UnlockAccount.SendRequestAsync(_fundmanager, _password, 3600);
 
             if (resultUnlocking)
             {
-                //return _web3.Eth.GetContract(abi, "0x01eAef116F163bebc875188e1Fc08b12f0AAf291");
-                return _web3.Eth.GetContract(abi, "0x1c0FDd2C3bbEfdd6c4bA454264595Ad9dDb78E78");
+                //return _web3.Eth.GetContract(abi, '0x01eAef116F163bebc875188e1Fc08b12f0AAf291");
+                return _web3.Eth.GetContract(abi, AbiContarctAddress);
             }
             return null;
         }
