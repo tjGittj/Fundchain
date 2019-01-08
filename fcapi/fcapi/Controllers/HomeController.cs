@@ -10,7 +10,9 @@ namespace fcapi.Controllers
     {
         public ActionResult Index()
         {
-            return null;
+            ViewBag.Title = "Home Page";
+
+            return View();
         }
     }
 }
