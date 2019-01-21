@@ -18,7 +18,7 @@ namespace EthereumStart.Services
 
         //Task<bool> ReleaseContract(string name, string abi, string byteCode, int gas);
         //Task<string> TryGetContractAddress(string name);
-        Task<Contract> GetContract(string name);
+        Task<Contract> GetContract(string name="");
 
         Task<Nethereum.RPC.Eth.DTOs.TransactionReceipt> MineAndGetReceiptAsync(string transactionHash);
 
