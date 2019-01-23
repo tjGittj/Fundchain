@@ -143,7 +143,7 @@ namespace fcapi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("addSellerToTF/tfname/{tfname}/name/{name}")]
-        public async Task<bool> addSellerToTF(string tfname = "", string name = "")
+        public async Task<string> addSellerToTF(string tfname = "", string name = "")
         {
             try
             {
@@ -155,11 +155,11 @@ namespace fcapi.Controllers
 
                 var transactionHash = await method.SendTransactionAsync(service.Investor, tfname, name, accountAddr);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
+                return "Successfully added seller to trading floor";
             }
             catch (Exception ex)
             {
-                return false;
+                return "Error when adding seller to trading floor " + ex.Message;
             }
         }
 
@@ -171,7 +171,7 @@ namespace fcapi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("addBuyerToTF/tfname/{tfname}/name/{name}")]
-        public async Task<bool> addBuyerToTF(string tfname = "", string name = "")
+        public async Task<string> addBuyerToTF(string tfname = "", string name = "")
         {
             try
             {
@@ -183,11 +183,11 @@ namespace fcapi.Controllers
 
                 var transactionHash = await method.SendTransactionAsync(service.Investor, tfname, name, accountAddr);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
+                return "Successfully added buyer to trading floor";
             }
             catch (Exception ex)
             {
-                return false;
+                return "Error when adding buyer to trading floor " + ex.Message;
             }
         }
 
@@ -199,7 +199,7 @@ namespace fcapi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("addFundsToSeller/tfname/{tfname}/name/{name}/amount/{amount}")]
-        public async Task<bool> addFundsToSeller(string tfname = "", string name = "", string amount = "")
+        public async Task<string> addFundsToSeller(string tfname = "", string name = "", string amount = "")
         {
             try
             {
@@ -210,11 +210,11 @@ namespace fcapi.Controllers
                 var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount, Nethereum.Util.UnitConversion.EthUnit.Ether);
                 var transactionHash = await method.SendTransactionAsync(service.Investor, null, new Nethereum.Hex.HexTypes.HexBigInteger(weiAmount), tfname, name);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
+                return "Successfully transferred funds to seller";
             }
             catch (Exception ex)
             {
-                return false;
+                return "Error when transferring funds to seller " + ex.Message;
             }
         }
 
@@ -226,7 +226,7 @@ namespace fcapi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("addFundsToBuyer/tfname/{tfname}/name/{name}/amount/{amount}")]
-        public async Task<bool> addFundsToBuyer(string tfname = "", string name = "", string amount = "")
+        public async Task<string> addFundsToBuyer(string tfname = "", string name = "", string amount = "")
         {
             try
             {
@@ -237,11 +237,11 @@ namespace fcapi.Controllers
                 var weiAmount = Nethereum.Util.UnitConversion.Convert.ToWei(amount, Nethereum.Util.UnitConversion.EthUnit.Ether);
                 var transactionHash = await method.SendTransactionAsync(service.Investor, null, new Nethereum.Hex.HexTypes.HexBigInteger(weiAmount), tfname, name);
                 var receipt = await service.MineAndGetReceiptAsync(transactionHash);
-                return true;
+                return "Successfully transferred funds to buyer";
             }
             catch (Exception ex)
             {
-                return false;
+                return "Error when transferring funds to buyer " + ex.Message;
             }
         }
     }
